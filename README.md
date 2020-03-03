@@ -21,7 +21,7 @@ $config->note = 'some note';
 $config->xero_callback = env('XERO_CALLBACK', 'http://website.com');
 
 $xero = new XeroFacade($config);
-$xero->getContacts
+$payments = $xero->getPayments();
 
 // dont forget to set the path to your cert:
 env('XERO_CERT_PATH') 
