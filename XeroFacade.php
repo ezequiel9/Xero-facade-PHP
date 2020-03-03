@@ -3,7 +3,9 @@
 namespace App\Facades;
 
 use App\User;
+use function GuzzleHttp\Psr7\str;
 use XeroPHP\Application\PrivateApplication;
+use XeroPHP\Models\Accounting\Account;
 use XeroPHP\Models\Accounting\Address;
 use XeroPHP\Models\Accounting\Contact;
 use XeroPHP\Models\Accounting\Invoice;
@@ -37,7 +39,8 @@ class XeroFacade
      * @return \XeroPHP\Remote\Collection
      * @throws \XeroPHP\Remote\Exception
      */
-    public function getAllContacts($page=1) {
+    public function getAllContacts($page=1)
+    {
         # get contacts from XERO
         if($page){
             return $this->xero->load(Contact::class)->where('EmailAddress', '!=', null)->page($page)->execute();
@@ -52,7 +55,8 @@ class XeroFacade
      * @return bool
      * @throws \XeroPHP\Remote\Exception
      */
-    public function getContact($email) {
+    public function getContact($email)
+    {
     	$contact = $this->xero->load(Contact::class)
             ->where('EmailAddress', trim(strtolower($email)))
             ->execute();
@@ -69,7 +73,8 @@ class XeroFacade
      * @return bool
      * @throws \XeroPHP\Remote\Exception
      */
-    public function getContactByName($name) {
+    public function getContactByName($name)
+    {
     	$contact = $this->xero->load(Contact::class)
             ->where('Name', $name)
             ->orWhere('Name.ToLower()', strtolower($name))
@@ -104,7 +109,8 @@ class XeroFacade
      * @return bool
      * @throws \XeroPHP\Remote\Exception
      */
-    public function createContact($data){
+    public function createContact($data)
+    {
         /**
          * Set Address
          */
@@ -144,7 +150,8 @@ class XeroFacade
      * @throws \XeroPHP\Exception
      * @throws \XeroPHP\Remote\Exception\NotFoundException
      */
-    public function updateContact($data){
+    public function updateContact($data)
+    {
         /**
          * Set Address
          */
@@ -176,6 +183,40 @@ class XeroFacade
 
     }
 
+    /**
+     * Get all Accounts for this current config
+     *
+     * @return \XeroPHP\Remote\Collection
+     * @throws \XeroPHP\Remote\Exception
+     */
+    public function getAccounts()
+    {
+        return $this->xero->load(Account::class)->execute();
+    }
+
+    /**
+     * Get all Accounts for this current config by code
+     *
+     * @param $code
+     * @return \XeroPHP\Remote\Collection
+     * @throws \XeroPHP\Remote\Exception
+     */
+    public function getAccountByCode($code)
+    {
+        return $this->xero->load(Account::class)->where('Code', (string) $code)->execute();
+    }
+
+    /**
+     * Get all Accounts for this current config
+     *
+     * @return \XeroPHP\Remote\Collection
+     * @throws \XeroPHP\Remote\Exception
+     */
+    public function getAccountByName()
+    {
+        return $this->xero->load(Account::class)->execute();
+    }
+
 
 
     /**
@@ -184,7 +225,8 @@ class XeroFacade
      * @return \XeroPHP\Remote\Collection
      * @throws \XeroPHP\Remote\Exception
      */
-    public function getPayments() {
+    public function getPayments()
+    {
         return $this->xero->load(Payment::class)->orderBy('Date', 'DESC')->execute();
     }
 
@@ -197,7 +239,8 @@ class XeroFacade
      * @return mixed
      * @throws \XeroPHP\Remote\Exception
      */
-    public function createInvoice($data){
+    public function createInvoice($data)
+    {
 
         //looping user.
         //$xero_id = $data['user']->xeroRemoteId;
@@ -280,7 +323,8 @@ class XeroFacade
      * @return bool
      * @throws \XeroPHP\Remote\Exception
      */
-    public function getInvoicePdf($invoice_number) {
+    public function getInvoicePdf($invoice_number)
+    {
         # get invoices from XERO
         $pdf_invoice = $this->getInvoice($invoice_number);
         if(!$pdf_invoice){
@@ -299,7 +343,8 @@ class XeroFacade
      * @return mixed
      * @throws \XeroPHP\Remote\Exception
      */
-    public function getInvoice($invoice_number) {
+    public function getInvoice($invoice_number)
+    {
         $invoice = $this->xero->load(Invoice::class)->where('InvoiceNumber', $invoice_number)->execute();
         if(empty($invoice[0])){
             return false;
@@ -313,7 +358,8 @@ class XeroFacade
      *
      * @return array
      */
-    public function getXeroConfig() {
+    public function getXeroConfig()
+    {
         return [
             'xero' => [
                 // API versions can be overridden if necessary for some reason.
@@ -337,5 +383,8 @@ class XeroFacade
         ];
 
     }
+
+
+
 
 }
