@@ -1,4 +1,4 @@
-# Xero-facade-PHP
+# Xero-facade-PHP Laravel
 
 This file is to be used as a complement of this package:
 
