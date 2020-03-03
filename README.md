@@ -10,7 +10,7 @@ composer require calcinai/xero-php
 
 Set your Config file:
 
-`
+```
 /**
  * NEW XERO ACCOUNT DATA
  */
@@ -37,7 +37,7 @@ Set your Config file:
 ],
 
 
-`
+```
 
 // Add The facade, set your shh keys and use it
 
