@@ -20,8 +20,19 @@ $config->xero_consumer_secret = env('XERO_CONSUMER_SECRET', 'xxxxxxx');
 $config->note = 'some note';
 $config->xero_callback = env('XERO_CALLBACK', 'http://website.com');
 
-$xero = new XeroFacade($config);
-$payments = $xero->getPayments();
+try {
+  $xero = new XeroFacade($config);
+  $payments = $xero->getPayments();
+  if (empty($invoice)) {
+      throw new \Exception('Xero returns Payments Empty. Looks Like Xero did not respond this time.');
+  }
+} catch (\Exception $e) {
+  return response()->json([
+    'error' => Details: Xero Api Error: ' . $e->getMessage()
+  ], 500);
+}
+
+
 
 // dont forget to set the path to your cert:
 env('XERO_CERT_PATH') 
