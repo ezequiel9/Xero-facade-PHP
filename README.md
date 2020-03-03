@@ -23,7 +23,7 @@ $config->xero_callback = env('XERO_CALLBACK', 'http://website.com');
 try {
   $xero = new XeroFacade($config);
   $payments = $xero->getPayments();
-  if (empty($invoice)) {
+  if (empty($payments)) {
       throw new \Exception('Xero returns Payments Empty. Looks Like Xero did not respond this time.');
   }
 } catch (\Exception $e) {
