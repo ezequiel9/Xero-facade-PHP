@@ -20,7 +20,7 @@ $config->xero_consumer_secret = env('XERO_CONSUMER_SECRET', 'xxxxxxx');
 $config->note = new \stdClass;
 $config->xero_callback = env('XERO_CALLBACK', 'http://website.com');
 
-$xero = new XeroFacade();
+$xero = new XeroFacade($config);
 $xero->getContacts
 
 // dont forget to set the path to your cert:
