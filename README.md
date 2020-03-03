@@ -17,7 +17,7 @@ $config = new \stdClass;
 $config->name = 'Xero Account 1';
 $config->xero_consumer_key = env('XERO_CONSUMER_KEY', 'xxxxxx');
 $config->xero_consumer_secret = env('XERO_CONSUMER_SECRET', 'xxxxxxx');
-$config->note = new \stdClass;
+$config->note = 'some note';
 $config->xero_callback = env('XERO_CALLBACK', 'http://website.com');
 
 $xero = new XeroFacade($config);
